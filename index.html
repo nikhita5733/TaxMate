@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Assistant (2025-26)</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    .container {
+        background: white;
+        padding: 20px;
+        max-width: 400px;
+        margin: auto;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    #result {
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #007bff;
+    }
+
+</style>
+<body>
+
+    <div class="container">
+        <h2>Income Tax Calculator (2025-26)</h2>
+
+        <label for="income">Total Annual Income (₹):</label>
+        <input type="number" id="income" placeholder="Enter your income" min="0">
+
+        <label for="regime">Select Tax Regime:</label>
+        <select id="regime">
+            <option value="old">Old Regime</option>
+            <option value="new">New Regime</option>
+        </select>
+
+        <label for="deductions">Deductions (₹):</label>
+        <input type="number" id="deductions" placeholder="Enter deductions" min="0">
+
+        <button onclick="calculateTax()">Calculate Tax</button>
+        
+        <p id="result">Your tax will be displayed here</p>
+    </div>
+
+    <script>
+        async function calculateTax() {
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const deductions = parseFloat(document.getElementById('deductions').value) || 0;
+            const regime = document.getElementById('regime').value;
+            
+            if (income < 0 || deductions < 0) {
+                document.getElementById('result').innerText = "Income and deductions must be positive values.";
+                return;
+            }
+
+            const response = await fetch('http://localhost:4000/calculate-tax', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ income, deductions, regime })
+            });
+
+            if (!response.ok) {
+                document.getElementById('result').innerText = "Error calculating tax. Please try again.";
+                return;
+            }
+
+            const data = await response.json();
+            document.getElementById('result').innerText = `Calculated Tax: ₹${data.tax.toFixed(2)}`;
+        }
+    </script>
+
+</body>
+</html>
