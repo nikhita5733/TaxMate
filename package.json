@@ -1,0 +1,19 @@
+{
+  "name": "her-hack",
+  "version": "1.0.0",
+  "description": "tax mate",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikhita5733/TaxMate.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nikhita5733/TaxMate/issues"
+  },
+  "homepage": "https://github.com/nikhita5733/TaxMate#readme"
+}
